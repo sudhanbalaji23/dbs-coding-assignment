@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dbs.subscriber.binding.PublisherBinding;
 import com.dbs.subscriber.model.Product;
@@ -28,6 +29,7 @@ public class RabbitMQListener {
 	protected Logger logger = Logger.getLogger(RabbitMQListener.class.getName());
 
 	@StreamListener(target = PublisherBinding.SHOPPING_CART_CHANNEL)
+	@Transactional
 	public void processMessage(String msg) {
 		logger.info("RabbitMQListener :: selected product before updating to DB :: "+msg);
 		ObjectMapper mapper = new ObjectMapper();
